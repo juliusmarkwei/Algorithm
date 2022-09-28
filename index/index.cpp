@@ -7,7 +7,8 @@ class Program{
     public:
     int numberOfElements, key;
     int elements[0];
-        void main(){
+    int firstDecision, secondDecision;
+        void header(){
             cout<<"\n\t\t*****************************************************************************"<<endl;
             cout<<"\n\t\t\t\t\tSEARCHING AND SORTING ALGORITHMS"<<endl;
             cout<<"\n\t\t*****************************************************************************"<<endl;
@@ -17,8 +18,33 @@ class Program{
         void welcomeMessage(){
             cout<<"The Algorithms available in this Program are:"<<endl;
             cout<<"Searching Algorithms"<<endl;
-            cout<<"1. Linear Search"<<endl;
-            cout<<"2. Binary Search"<<endl<<endl; Sleep(3000);
+            cout<<"Sorting Algorithms"<<endl;
+            cout<<endl;
+
+            cout<<"Do you want to proceed with Sorting or Searching Algorithm?"<<endl;
+            cout<<"Enter 0 for Sorting or 1 for Searching Algorithm.......";
+            cin>>firstDecision;
+            cout<<endl;
+            
+            while(firstDecision < 0 or firstDecision > 2){
+                if(firstDecision == 0){
+                    cout<<"Searching Algorithms"<<endl;
+                    cout<<"1 Linear Search"<<endl;
+                    cout<<"2 Binary Search"<<endl<<endl; Sleep(3000);
+                }
+                else if(firstDecision == 1){
+                    cout<<"Sorting Algorithms"<<endl;
+                    cout<<"Sorting Algorithms"<<endl;
+                    cout<<"1. Selection Sort"<<endl;
+                    cout<<"2. Insertion Sort"<<endl;
+                    cout<<"3. Nearly Sorted"<<endl;
+                    cout<<"4. Shell Sort"<<endl;
+                    cout<<"5. Quick Sort"<<endl;
+                    cout<<"6. Merge Sort"<<endl;
+                    cout<<"7. Radix Sort"<<endl<<endl; Sleep(10000);
+                }
+            }
+            
             cout<<"Sorting Algorithms"<<endl;
             cout<<"1. Selection Sort"<<endl;
             cout<<"2. Insertion Sort"<<endl;
@@ -27,8 +53,6 @@ class Program{
             cout<<"5. Quick Sort"<<endl;
             cout<<"6. Merge Sort"<<endl;
             cout<<"7. Radix Sort"<<endl<<endl; Sleep(10000);
-            cout<<"Do you want to proceed with Sorting or Searching Algorithm?"<<endl;
-            cout<<"Enter 0 for Sorting or 1 for Searching Algorithm."<<endl;
         }
         
         void takeInput(){
@@ -141,6 +165,7 @@ class Algorithms : public Program{
             takeInput();
             cout<<"UNSORTED";
             displayInput();
+
         }
 
         //Shell sort
@@ -172,15 +197,16 @@ class Algorithms : public Program{
         int partition(int elements[], int lowIndex, int highIndex){
             // takeInput();
             // cout<<"UNSORTED";
+            // int elements[];
             // displayInput();
             int temp;
             // cout<<"Select a low index for partition ";cin>>lowIndex;
             // cout<<"Select a high index for partition ";cin>>highIndex;
             int midpoint = lowIndex + (highIndex - lowIndex) / 2;
-            int pivot = elements[midpoint];
+            int pivot = elements[midpoint];  // 4 is pivot 
             bool done = false;
             while(!done){
-                while(elements[lowIndex] < pivot){
+                while(elements[lowIndex] < pivot){  // array = [10, 2, 78, 4, 45, 32, 7, 11]
                     lowIndex += 1;
                 }
                 while(pivot < elements[highIndex]){
@@ -198,10 +224,12 @@ class Algorithms : public Program{
                     highIndex -= 1;
                 }
             }
+
             return highIndex;
+
         }
 
-        void quickSort(int elements[], int lowIndex, int highIndex){
+        void quickSort(int lowIndex, int highIndex){
             if(lowIndex >= highIndex){
                 return;
             }
@@ -229,16 +257,22 @@ class Algorithms : public Program{
 // };
 
 int main(){
+
+    int numberOfElements;
+    int elements[0]; 
+    cout<<"Enter the number of elements in the Array to be processed >>>>>> ";
+    cin>>numberOfElements;
+    for(int i=0; i<numberOfElements; i++){
+        cout<<"Element at index "<<i<<" "; 
+        cin>>elements[i];
+    }
     Algorithms m;
-    // m.project();
-    // m.welcomeMessage();
+    m.header();
+    //m.welcomeMessage();
     // m.partition();
-    int elements[8] = {10, 2, 78, 4, 45, 32, 7, 11};
-    m.quickSort(elements, 0, 8-1);
-    cout<<"\nSORTED [ ";
-    for(int i=0; i < 8; i++){
-        cout<<elements[i]<<" ";
-    }cout<<"]";
+    // m.binarySearch();
+    m.quickSort(elements,0,5);
+    
 
     return 0;
 };
