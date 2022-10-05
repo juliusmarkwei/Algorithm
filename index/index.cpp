@@ -4,10 +4,10 @@
 using namespace std;
 
 class Program{
-    public:
-    int numberOfElements, key;
+    protected:
+    int numberOfElements;
+    int key;
     int elements[0];
-    int option1, option2;
         void header(){
             cout<<"\n\t\t*****************************************************************************"<<endl;
             cout<<"\n\t\t\t\t\tSEARCHING AND SORTING ALGORITHMS"<<endl;
@@ -16,55 +16,46 @@ class Program{
         }
 
         void welcomeMessage(){
-            cout<<"The Algorithms available in this Program are:"<<endl;
-            cout<<"Searching Algorithms"<<endl;
-            cout<<"Sorting Algorithms"<<endl;
+            cout<<"\t\t\t\tBelow Are The Type Algorithms Available in This Program"<<endl;
+            cout<<"\t\t\t\t1. Searching Algorithms"<<endl;
+            cout<<"\t\t\t\t2. Sorting Algorithms"<<endl;
             cout<<endl;
-
-            cout<<"Do you want to proceed with Sorting or Searching Algorithm?"<<endl;
-            cout<<"Enter 0 for Sorting or 1 for Searching Algorithm.......";
-            cin>>firstDecision;
-            cout<<endl;
-
-            while(firstDecision != 0 || firstDecision != 1){
-                cout<<"Please enter a value between 0 and 1: ";
-                cin>>firstDecision;
-            }
+        }
             
            
-            if(firstDecision == 0){
-                cout<<"Searching Algorithms"<<endl;
-                cout<<"1 Linear Search"<<endl;
-                cout<<"2 Binary Search"<<endl<<endl; Sleep(3000);
-            }
-            else if(firstDecision == 1){
-                cout<<"Sorting Algorithms"<<endl;
-                cout<<"Sorting Algorithms"<<endl;
-                cout<<"1. Selection Sort"<<endl;
-                cout<<"2. Insertion Sort"<<endl;
-                cout<<"3. Nearly Sorted"<<endl;
-                cout<<"4. Shell Sort"<<endl;
-                cout<<"5. Quick Sort"<<endl;
-                cout<<"6. Merge Sort"<<endl;
-                cout<<"7. Radix Sort"<<endl<<endl; Sleep(10000);
-            }
-            
-            
+        void searchingAlgorithm(){
+            cout<<"Searching Algorithms"<<endl;
+            cout<<"1 Linear Search"<<endl;
+            cout<<"2 Binary Search"<<endl;
+            cout<<"0. Go Back"<<endl;
+        }
+
+        void sortingAlgorithm(){
+            cout<<"Sorting Algorithms"<<endl;
+            cout<<"1. Selection Sort"<<endl;
+            cout<<"2. Insertion Sort"<<endl;
+            cout<<"3. Nearly Sorted"<<endl;
+            cout<<"4. Shell Sort"<<endl;
+            cout<<"5. Quick Sort"<<endl;
+            cout<<"6. Merge Sort"<<endl;
+            cout<<"7. Radix Sort"<<endl;
+            cout<<"0. Back"<<endl;
         }
         
         void takeInput(){
             cout<<"Enter the number of elements in the Array to be processed >>>>>> ";
             cin>>numberOfElements;
+            elements[numberOfElements];
             for(int i=0; i<numberOfElements; i++){
-                cout<<"Element at index "<<i<<" "; cin>>elements[i];
+                cout<<"Element at index "<<i<<": "; cin>>elements[i];
             }
             cout<<endl;
         }
 
         void displayInput(){
             cout<<"\nElements to be taken as inputs: [ ";
-            for(int b=0; b<numberOfElements; b++){
-                cout<<elements[b]<<" ";
+            for(int i=0; i<numberOfElements; i++){
+                cout<<elements[i]<<" ";
             }cout<<"]"<<endl;
         }
 
@@ -76,13 +67,11 @@ class Program{
         }
 };
 
-class Algorithms : public Program{
-    public:
+class AlgorithmsForInt : protected Program{
+    protected:
 
         // Linear search algorithm
         void linearSearch(){
-            takeInput();
-            displayInput();
             cout<<"Enter key for linear search>>>>";
             cin>>key;
             for(int i=0; i<numberOfElements; i++){
@@ -95,9 +84,7 @@ class Algorithms : public Program{
 
         // Bianry search algorithm
         void binarySearch(){
-            takeInput();
-            displayInput();
-            int mid, low, high = numberOfElements - 1, ret = 0;
+            int mid, low, high = numberOfElements - 1, ret = -1;
             cout<<"Enter key for binary search>>>>"; cin>>key;
             while(high>=low){
                 mid = (high + low) / 2;
@@ -109,23 +96,21 @@ class Algorithms : public Program{
                 }
                 else{
                     ret = mid;
-                    break;
                 }
-                ret = -1;
             }
+
             if(ret == -1){
                 cout<<key<<" not found"<<endl;
             }
             else{
                 cout<<key<<" found at index "<<ret<<endl;
             }
+            cout<<endl;
+            
         }
 
         //Selection Sort
         void selectionSort(){
-            takeInput();
-            cout<<"UNSORTED";
-            displayInput();
             int temp = 0, indexSmallest = 0;
             for(int i=0; i<numberOfElements - 1; ++i){
                 indexSmallest =i;
@@ -138,14 +123,10 @@ class Algorithms : public Program{
                 elements[i] = elements[indexSmallest];
                 elements[indexSmallest] = temp;
             }cout<<endl;
-            displayResult();
         }
 
         //Insertion sort
         void insertionSort(){
-            takeInput();
-            cout<<"UNSORTED";
-            displayInput();
             int temp = 0, j, i;
             for(i = 1; i < numberOfElements; ++i){
                 j = i;
@@ -156,36 +137,28 @@ class Algorithms : public Program{
                     --j;
                 }
             }
-            displayResult();
         }
 
         //Nearly sorted
         void nearlySorted(){
-            takeInput();
-            
-            displayInput();
+            // codes goes here
 
         }
 
         //Shell sort
         void shellSort(){
-            takeInput();
-            cout<<"UNSORTED";
-            displayInput();
-            int startIndex, gap;
-            int i = 0, j = 0, temp = 0;
-            cout<<"Select gap: "; cin>>gap;
-            cout<<"Input start index: "; cin>>startIndex;
-            for(i = startIndex + gap; i < numberOfElements; i = i + gap){
-                j = i;
-                while(j - gap >= startIndex && elements[j] < elements[j - gap]){
-                    temp = elements[j];
-                    elements[j] = elements[j - gap];
-                    elements[j - gap] = temp;
-                    j = j - gap;
-                }
+            for(int gap = numberOfElements/2; gap > 0; gap /= 2){
+            for(int j = gap; j < numberOfElements; j++){
+            int temp = elements[j];
+            int i = 0;
+
+            for(i = j; (i >= gap) && (elements[i - gap] > temp); i -= gap){
+                elements[i] = elements[i - gap];
             }
-            displayInput();
+            elements[i] = temp;
+            }
+    }
+            
         }
 
         //Quick sort
@@ -343,17 +316,175 @@ class Algorithms : public Program{
 
 };
 
-class Home: public Algorithms{
+class Home: protected AlgorithmsForInt{
     public:
 
     void mainProgramControl(){
         header();
         Sleep(3000);
         welcomeMessage();
+        int choice;
+        int option, decision;
+        string proceed;
         do{
+            cout<<"Do you want to proceed with Sorting or Searching Algorithm?"<<endl;
+            cout<<"Enter 0 for Sorting or 1 for Searching Algorithm >>>> ";
+            cin>>option;
+            cout<<endl<<endl;
+
+            // checking user input validity
+            while(option != 0 && option != 1){
+                cout<<"Please enter a value between 0 and 1: ";
+                cin>>option;
+            }
+
+            switch(option){
+                case 0:
+                    do{
+                        searchingAlgorithm();
+                        cout<<endl;
+                        cout<<"Select any of the Searching Algorithms above: ";
+                        cin>>choice;
+                        cout<<endl;
+
+                        while(choice < 0 || choice > 2){
+                            cout<<"Please enter a value between 0 and 2: ";
+                            cin>>choice;
+                        }
+                        switch(choice){
+                            
+                            case 1:
+                                while(proceed != "N"){
+                                cout<<"Linear search algorithm"<<endl;
+                                takeInput();
+                                displayInput();
+                                linearSearch();
+
+                                cout<<"Do you want to continue with Linear Search? (Y or N): ";
+                                cin>>proceed;
+                                cout<<endl;
+                                }
+                                break;
+                                
+
+                            case 2:
+                                proceed = "Y";
+                                while(proceed == "Y"){
+                                cout<<"Binary search algorithm"<<endl;
+                                takeInput();
+                                displayInput();
+                                binarySearch();
+
+                                cout<<"Do you want to continue with Linear Search? (Y or N): ";
+                                cin>>proceed;
+                                cout<<endl;
+                                }
+                                break;
+
+                        }
+                    }while(choice != 0);
+                    break;
+
+                case 1:
+                    do{
+                        sortingAlgorithm();
+                        cout<<endl;
+                        cout<<"Select any of the Sorting Algorithm above: ";
+                        cin>>choice;
+                        cout<<endl;
+
+                        while(choice < 0 || choice > 7){
+                            cout<<"Please enter a value between 0 and 7: ";
+                            cin>>choice;
+                        }
+
+                        switch(choice){
+                            case 1:
+                                proceed = "Y";
+                                while(proceed == "Y"){
+                                cout<<"Selection sort algorithm"<<endl;
+                                takeInput();
+                                displayInput();
+                                selectionSort();
+                                displayResult();
+
+                                cout<<"Do you want to continue with Linear Search? (Y or N): ";
+                                cin>>proceed;
+                                cout<<endl;
+                                }
+                                break;
+
+                            case 2:
+                                proceed = "Y";
+                                while(proceed == "Y"){
+                                cout<<"Insertion sort algorithm"<<endl;
+                                takeInput();
+                                displayInput();
+                                insertionSort();
+                                displayResult();
+
+                                cout<<"Do you want to continue with Insertion Sort? (Y or N): ";
+                                cin>>proceed;
+                                cout<<endl;
+                                }
+                                break;
+
+                            case 3:
+                                proceed = "Y";
+                                while(proceed == "Y"){
+                                cout<<"Nearly sort algorithm"<<endl;
+                                takeInput();
+                                displayInput();
+                                nearlySorted();
+                                displayResult();
+
+                                cout<<"Do you want to continue with Nearly Sort? (Y or N): ";
+                                cin>>proceed;
+                                cout<<endl;
+                                }
+                                break;
+
+                            case 4:
+                                proceed = "Y";
+                                while(proceed == "Y"){
+                                cout<<"Shell sort algorithm"<<endl;
+                                takeInput();
+                                displayInput();
+                                shellSort();
+                                displayResult();
+
+                                cout<<"Do you want to continue with Shell Sort? (Y or N): ";
+                                cin>>proceed;
+                                cout<<endl;
+                                }
+                                break;
+
+                            case 5:
+                                proceed = "Y";
+                                while(proceed == "Y"){
+                                cout<<"Quick sort algorithm"<<endl;
+                                int elements[0], lowIndex, highIndex;
+                                takeInput();
+                                displayInput();
+                                cout<<"Set low index: ";
+                                cin>>lowIndex;
+                                cout<<"Set high index: ";
+                                cin>>highIndex;
+                                quickSort(elements, lowIndex, highIndex);
+                                displayResult();
+
+                                cout<<"Do you want to continue with Quick Sort? (Y or N): ";
+                                cin>>proceed;
+                                cout<<endl;
+                                }
+                                break;
+                        }
+
+                    }while(choice != 0);
+            }
 
 
-        }
+        }while(option == 0 || option == 1);
     }
 };
 

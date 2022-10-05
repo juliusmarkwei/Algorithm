@@ -2,54 +2,52 @@
 using namespace std;
 
 
-int demo(){
-    int numberOfElements, key;
-    cout<<"Enter size: ";
-    cin>>numberOfElements;
-    int elements[numberOfElements];
+int partition(int elements[], int lowIndex, int highIndex){
+    int v, i, j, temp;
+    v = elements[lowIndex];
+    i = lowIndex;
+    j = highIndex + 1;
 
-    for(int i = 0; i < numberOfElements; i++){
-        cout<<"Set index: ";
-        cin>>elements[i];
-    }
-    int mid, low, high = numberOfElements - 1, ret = 0;
-    cout<<"Enter key for binary search>>>>"; cin>>key;
+    do{
+        do{
+            i++;
+        }while(elements[i] < v && i <= highIndex);
 
-    
-    while(high>=low){
-        mid = (high + low) / 2;
-
-        if(key == elements[mid]){
-            return mid;
-            break;
+        do{
+            j--;
+        }while(v < elements[j]);
+        if(i < j){
+            temp = elements[i];
+            elements[i] = elements[j];
+            elements[j] = temp;
         }
-        else if(elements[mid] < key){
-            low = mid + 1;
-        }
-        else{
-            high = mid - 1;
-        }
-        return -1;
-    }
+    }while(i < j);
 
+    elements[i] = elements[j];
+    elements[j] = v;
 
+    return j;
+}
 
-
-    if(ret == -1){
-        cout<<key<<" not found"<<endl;
-    }
-    else{
-        cout<<key<<" found at index "<<ret<<endl;
-    }
-    cout<<endl;
-
-    for(int i=0; i< numberOfElements; i++){
-        cout<<elements[i]<<" ";
+void quickSort(int elements[], int lowIndex, int highIndex){
+    int j;
+    if(lowIndex<highIndex){
+        j = partition(elements, lowIndex, highIndex);
+        quickSort(elements, lowIndex, highIndex - 1);
+        quickSort(elements, lowIndex + 1, highIndex);
     }
 }
 
 int main(){
-    demo();
+    int array[] = {3, 66, 8, 0, 1, 3, 4, 6};
+    int size = 8;
+
+    quickSort(array, 0, 7);
+
+    for(int i = 0; i < size; i++){
+        cout<<array[i]<<" "<<endl;
+    }
+
 
     return 0;
 }
