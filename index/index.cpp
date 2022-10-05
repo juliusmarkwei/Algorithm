@@ -163,45 +163,39 @@ class AlgorithmsForInt : protected Program{
 
         //Quick sort
         int partition(int elements[], int lowIndex, int highIndex){
-            int temp;
-            
-            int midpoint = lowIndex + (highIndex - lowIndex) / 2;
-            int pivot = elements[midpoint];  // 4 is pivot 
-            bool done = false;
-            while(!done){
-                while(elements[lowIndex] < pivot){  // array = [10, 2, 78, 4, 45, 32, 7, 11]
-                    lowIndex += 1;
-                }
-                while(pivot < elements[highIndex]){
-                    highIndex -= 1;
-                }
-                if(lowIndex >= highIndex){
-                    done = true;
-                }
-                else{
-                    temp = elements[lowIndex];
-                    elements[lowIndex] = elements[highIndex];
-                    elements[highIndex] = temp;
+            int v, i, j, temp;
+            v = elements[lowIndex];
+            i = lowIndex;
+            j = highIndex + 1;
 
-                    lowIndex += 1;
-                    highIndex -= 1;
+            do{
+                do{
+                    i++;
+                }while(elements[i] < v && i <= highIndex);
+
+                do{
+                    j--;
+                }while(v < elements[j]);
+                if(i < j){
+                    temp = elements[i];
+                    elements[i] = elements[j];
+                    elements[j] = temp;
                 }
-            }
+            }while(i < j);
 
-            return highIndex;
+            elements[lowIndex] = elements[j];
+            elements[j] = v;
 
+            return j;
         }
 
         void quickSort(int elements[], int lowIndex, int highIndex){
-            if(lowIndex >= highIndex){
-                return;
+            int j;
+            if(lowIndex<highIndex){
+                j = partition(elements, lowIndex, highIndex);
+                quickSort(elements, lowIndex, j - 1);
+                quickSort(elements, j + 1, highIndex);
             }
-            int lowEndIndex = partition(elements, lowIndex, highIndex);
-
-            quickSort(elements, lowIndex, lowEndIndex);
-            quickSort(elements, lowEndIndex - 1, highIndex);
-
-            displayResult();
         }
 
         // Merge Sort
@@ -321,11 +315,11 @@ class Home: protected AlgorithmsForInt{
 
     void mainProgramControl(){
         header();
-        Sleep(3000);
+        Sleep(2000);
         welcomeMessage();
         int choice;
         int option, decision;
-        string proceed;
+        string proceed, exit;
         do{
             cout<<"Do you want to proceed with Sorting or Searching Algorithm?"<<endl;
             cout<<"Enter 0 for Sorting or 1 for Searching Algorithm >>>> ";
@@ -402,80 +396,100 @@ class Home: protected AlgorithmsForInt{
                             case 1:
                                 proceed = "Y";
                                 while(proceed == "Y"){
-                                cout<<"Selection sort algorithm"<<endl;
-                                takeInput();
-                                displayInput();
-                                selectionSort();
-                                displayResult();
+                                    cout<<"Selection sort algorithm"<<endl;
+                                    takeInput();
+                                    displayInput();
+                                    selectionSort();
+                                    displayResult();
 
-                                cout<<"Do you want to continue with Linear Search? (Y or N): ";
-                                cin>>proceed;
-                                cout<<endl;
+                                    cout<<"Do you want to continue with Linear Search? (Y or N): ";
+                                    cin>>proceed;
+                                    cout<<endl;
                                 }
                                 break;
 
                             case 2:
                                 proceed = "Y";
                                 while(proceed == "Y"){
-                                cout<<"Insertion sort algorithm"<<endl;
-                                takeInput();
-                                displayInput();
-                                insertionSort();
-                                displayResult();
+                                    cout<<"Insertion sort algorithm"<<endl;
+                                    takeInput();
+                                    displayInput();
+                                    insertionSort();
+                                    displayResult();
 
-                                cout<<"Do you want to continue with Insertion Sort? (Y or N): ";
-                                cin>>proceed;
-                                cout<<endl;
+                                    cout<<"Do you want to continue with Insertion Sort? (Y or N): ";
+                                    cin>>proceed;
+                                    cout<<endl;
                                 }
                                 break;
 
                             case 3:
                                 proceed = "Y";
                                 while(proceed == "Y"){
-                                cout<<"Nearly sort algorithm"<<endl;
-                                takeInput();
-                                displayInput();
-                                nearlySorted();
-                                displayResult();
+                                    cout<<"Nearly sort algorithm"<<endl;
+                                    takeInput();
+                                    displayInput();
+                                    nearlySorted();
+                                    displayResult();
 
-                                cout<<"Do you want to continue with Nearly Sort? (Y or N): ";
-                                cin>>proceed;
-                                cout<<endl;
+                                    cout<<"Do you want to continue with Nearly Sort? (Y or N): ";
+                                    cin>>proceed;
+                                    cout<<endl;
                                 }
                                 break;
 
                             case 4:
                                 proceed = "Y";
                                 while(proceed == "Y"){
-                                cout<<"Shell sort algorithm"<<endl;
-                                takeInput();
-                                displayInput();
-                                shellSort();
-                                displayResult();
+                                    cout<<"Shell sort algorithm"<<endl;
+                                    takeInput();
+                                    displayInput();
+                                    shellSort();
+                                    displayResult();
 
-                                cout<<"Do you want to continue with Shell Sort? (Y or N): ";
-                                cin>>proceed;
-                                cout<<endl;
+                                    cout<<"Do you want to continue with Shell Sort? (Y or N): ";
+                                    cin>>proceed;
+                                    cout<<endl;
                                 }
                                 break;
 
                             case 5:
                                 proceed = "Y";
                                 while(proceed == "Y"){
-                                cout<<"Quick sort algorithm"<<endl;
-                                int elements[0], lowIndex, highIndex;
-                                takeInput();
-                                displayInput();
-                                cout<<"Set low index: ";
-                                cin>>lowIndex;
-                                cout<<"Set high index: ";
-                                cin>>highIndex;
-                                quickSort(elements, lowIndex, highIndex);
-                                displayResult();
+                                    cout<<"Quick sort algorithm"<<endl;
+                                    int lowIndex, highIndex;
+                                    takeInput();
+                                    displayInput();
+                                    cout<<"Set low index: ";
+                                    cin>>lowIndex;
+                                    cout<<"Set high index: ";
+                                    cin>>highIndex;
+                                    quickSort(elements, lowIndex, highIndex);
+                                    displayResult();
 
-                                cout<<"Do you want to continue with Quick Sort? (Y or N): ";
-                                cin>>proceed;
-                                cout<<endl;
+                                    cout<<"Do you want to continue with Quick Sort? (Y or N): ";
+                                    cin>>proceed;
+                                    cout<<endl;
+                                }
+                                break;
+
+                            case 6:
+                                proceed = "Y";
+                                while(proceed == "Y"){
+                                    cout<<"Merge sort algorithm"<<endl;
+                                    int i, k;
+                                    takeInput();
+                                    displayInput();
+                                    cout<<"Set value for i: ";
+                                    cin>>i;
+                                    cout<<"Set value for k: ";
+                                    cin>>k;
+                                    mergeSort(elements, i, k);
+                                    displayResult();
+
+                                    cout<<"Do you want to continue with Merge Sort? (Y or N): ";
+                                    cin>>proceed;
+                                    cout<<endl;
                                 }
                                 break;
                         }
@@ -491,18 +505,6 @@ class Home: protected AlgorithmsForInt{
 int main(){
      Home home;
      home.mainProgramControl();
-
-    // menu.numberOfElements;
-    // cout<<"Enter the number of elements in the Array to be processed >>>>>> ";
-    // cin>>menu.numberOfElements;
-    // alg.elements[menu.numberOfElements]; 
-    // for(int a=0; a<menu.numberOfElements; a++){
-    //     cout<<"Element at index "<<a<<": "; 
-    //     cin>>menu.elements[a];
-    // }
-
-    
-    
 
     return 0;
 };
