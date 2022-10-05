@@ -7,7 +7,7 @@ class Program{
     public:
     int numberOfElements, key;
     int elements[0];
-    int firstDecision, secondDecision;
+    int option1, option2;
         void header(){
             cout<<"\n\t\t*****************************************************************************"<<endl;
             cout<<"\n\t\t\t\t\tSEARCHING AND SORTING ALGORITHMS"<<endl;
@@ -25,34 +25,31 @@ class Program{
             cout<<"Enter 0 for Sorting or 1 for Searching Algorithm.......";
             cin>>firstDecision;
             cout<<endl;
-            
-            while(firstDecision < 0 or firstDecision > 2){
-                if(firstDecision == 0){
-                    cout<<"Searching Algorithms"<<endl;
-                    cout<<"1 Linear Search"<<endl;
-                    cout<<"2 Binary Search"<<endl<<endl; Sleep(3000);
-                }
-                else if(firstDecision == 1){
-                    cout<<"Sorting Algorithms"<<endl;
-                    cout<<"Sorting Algorithms"<<endl;
-                    cout<<"1. Selection Sort"<<endl;
-                    cout<<"2. Insertion Sort"<<endl;
-                    cout<<"3. Nearly Sorted"<<endl;
-                    cout<<"4. Shell Sort"<<endl;
-                    cout<<"5. Quick Sort"<<endl;
-                    cout<<"6. Merge Sort"<<endl;
-                    cout<<"7. Radix Sort"<<endl<<endl; Sleep(10000);
-                }
+
+            while(firstDecision != 0 || firstDecision != 1){
+                cout<<"Please enter a value between 0 and 1: ";
+                cin>>firstDecision;
             }
             
-            cout<<"Sorting Algorithms"<<endl;
-            cout<<"1. Selection Sort"<<endl;
-            cout<<"2. Insertion Sort"<<endl;
-            cout<<"3. Nearly Sorted"<<endl;
-            cout<<"4. Shell Sort"<<endl;
-            cout<<"5. Quick Sort"<<endl;
-            cout<<"6. Merge Sort"<<endl;
-            cout<<"7. Radix Sort"<<endl<<endl; Sleep(10000);
+           
+            if(firstDecision == 0){
+                cout<<"Searching Algorithms"<<endl;
+                cout<<"1 Linear Search"<<endl;
+                cout<<"2 Binary Search"<<endl<<endl; Sleep(3000);
+            }
+            else if(firstDecision == 1){
+                cout<<"Sorting Algorithms"<<endl;
+                cout<<"Sorting Algorithms"<<endl;
+                cout<<"1. Selection Sort"<<endl;
+                cout<<"2. Insertion Sort"<<endl;
+                cout<<"3. Nearly Sorted"<<endl;
+                cout<<"4. Shell Sort"<<endl;
+                cout<<"5. Quick Sort"<<endl;
+                cout<<"6. Merge Sort"<<endl;
+                cout<<"7. Radix Sort"<<endl<<endl; Sleep(10000);
+            }
+            
+            
         }
         
         void takeInput(){
@@ -66,6 +63,13 @@ class Program{
 
         void displayInput(){
             cout<<"\nElements to be taken as inputs: [ ";
+            for(int b=0; b<numberOfElements; b++){
+                cout<<elements[b]<<" ";
+            }cout<<"]"<<endl;
+        }
+
+        void displayResult(){
+            cout<<"\nSORTED: [ ";
             for(int i=0; i<numberOfElements; i++){
                 cout<<elements[i]<<" ";
             }cout<<"]"<<endl;
@@ -124,6 +128,7 @@ class Algorithms : public Program{
             displayInput();
             int temp = 0, indexSmallest = 0;
             for(int i=0; i<numberOfElements - 1; ++i){
+                indexSmallest =i;
                 for(int j = i + 1; j < numberOfElements; ++j){
                     if(elements[j] < elements[indexSmallest]){
                         indexSmallest = j;
@@ -133,10 +138,7 @@ class Algorithms : public Program{
                 elements[i] = elements[indexSmallest];
                 elements[indexSmallest] = temp;
             }cout<<endl;
-            cout<<"\nSORTED [ ";
-            for(int i=0; i < numberOfElements; i++){
-                cout<<elements[i]<<" ";
-            }cout<<"]";
+            displayResult();
         }
 
         //Insertion sort
@@ -154,16 +156,13 @@ class Algorithms : public Program{
                     --j;
                 }
             }
-            cout<<"\nSORTED [ ";
-            for(int i=0; i < numberOfElements; i++){
-                cout<<elements[i]<<" ";
-            }cout<<"]";
+            displayResult();
         }
 
         //Nearly sorted
         void nearlySorted(){
             takeInput();
-            cout<<"UNSORTED";
+            
             displayInput();
 
         }
@@ -186,22 +185,13 @@ class Algorithms : public Program{
                     j = j - gap;
                 }
             }
-            cout<<"\nSORTED [ ";
-            for(int i=0; i < numberOfElements; i++){
-                cout<<elements[i]<<" ";
-            }cout<<"]";
+            displayInput();
         }
 
         //Quick sort
-        // int lowIndex, highIndex;
         int partition(int elements[], int lowIndex, int highIndex){
-            // takeInput();
-            // cout<<"UNSORTED";
-            // int elements[];
-            // displayInput();
             int temp;
-            // cout<<"Select a low index for partition ";cin>>lowIndex;
-            // cout<<"Select a high index for partition ";cin>>highIndex;
+            
             int midpoint = lowIndex + (highIndex - lowIndex) / 2;
             int pivot = elements[midpoint];  // 4 is pivot 
             bool done = false;
@@ -229,7 +219,7 @@ class Algorithms : public Program{
 
         }
 
-        void quickSort(int lowIndex, int highIndex){
+        void quickSort(int elements[], int lowIndex, int highIndex){
             if(lowIndex >= highIndex){
                 return;
             }
@@ -238,40 +228,149 @@ class Algorithms : public Program{
             quickSort(elements, lowIndex, lowEndIndex);
             quickSort(elements, lowEndIndex - 1, highIndex);
 
-            // cout<<"\nSORTED [ ";
-            // for(int i=0; i < numberOfElements; i++){
-            //     cout<<elements[i]<<" ";
-            // }cout<<"]";
+            displayResult();
+        }
+
+        // Merge Sort
+        void merge(int numbers[], int i, int j, int k){
+            int mergdSize = k - i + 1;
+            int mergePos = 0;
+            int leftPos = 0;
+            int rightPos = 0;
+            int mergedNumbers[mergdSize];
+
+            leftPos = i;
+            rightPos = j + 1;
+
+            while(leftPos <= j && rightPos <= k){
+                if(numbers[leftPos] <= numbers[rightPos]){
+                mergedNumbers[mergePos] = numbers[leftPos];
+                ++leftPos;
+                }
+                else{
+                mergedNumbers[mergePos] = numbers[rightPos];
+                ++rightPos;
+                }
+                ++mergePos;
+            }
+
+            while(leftPos <= j){
+                mergedNumbers[mergePos] = numbers[leftPos];
+                ++leftPos;
+                ++rightPos;
+            }
+
+            while(rightPos <= k){
+                mergedNumbers[mergePos] = numbers[rightPos];
+                ++rightPos;
+                ++mergePos;
+            }
+
+            for(mergePos = 0; mergePos < mergdSize; ++mergePos){
+                numbers[i + mergePos] = mergedNumbers[mergePos];
+            }
+        }
+
+        void mergeSort(int numbers[], int i, int k){
+            int j = 0;
+
+            if(i < k){
+                j = (i + k) / 2;
+
+                mergeSort(numbers, i, j);
+                mergeSort(numbers, j + 1, k);
+
+                merge(numbers, i, j, k);
+            }
+        }
+
+        
+        // Radix sort
+        int getMax(int elements[], int elementSize){
+            int max = elements[0];
+            for(int i = 0; i < elementSize; i++){
+                if(elements[i] > max){
+                    max = elements[i];
+                }
+            }
+            return max;
+        }
+
+        void countSort(int elements[], int elementSize, int exp){
+            int output[elementSize];
+            int i, count[10] = {0};
+
+            // Store count of occurrences of count []
+            for(i=0; i<elementSize; i++){
+                count[(elements[i] / exp) % 10];
+            }
+
+            // Change count[i] so that count[i] now contains actual
+            // position of this digit in output[]
+            for(i = 0; i < 10; i++){
+                count[i] += count[i - 1];
+            }
+
+            // Build the output array
+            for(i = elementSize -1; i >= 0; i--){
+                output[count[(elements[i] / exp) % 10] -1] = elements[i];
+                count[(elements[i] / exp) % 10]--;
+            }
+
+            // Copy the output array into elements[], so that
+            // elements[] now contains sorted numbers according to
+            // current digits.
+            for(i = 0; i < elementSize; i++){
+                elements[i] = output[i];
+            }
+        }
+
+        void radixSort(int elements[], int elementSize){
+            // Find the maximum number to know number of digits
+            int m = getMax(elements, elementSize);
+
+            // Do counting sort for every digit. Note that instead of
+            // passing digit number, exp is passed. exp is 10^i
+            // where i is the current digit number
+            for(int exp = 1; m / exp > 0; exp *= 10){
+                countSort(elements, elementSize, exp);
+            }
+
+            // display results to user
+            displayResult();
+            
         }
 
 };
 
-// class AlgorithmSelector : public Algorithm{
-//     public:
-//         do{
-//             while(){
+class Home: public Algorithms{
+    public:
 
-//             }
+    void mainProgramControl(){
+        header();
+        Sleep(3000);
+        welcomeMessage();
+        do{
 
-//         }while()
-// };
+
+        }
+    }
+};
 
 int main(){
+     Home home;
+     home.mainProgramControl();
 
-    int numberOfElements;
-    int elements[0]; 
-    cout<<"Enter the number of elements in the Array to be processed >>>>>> ";
-    cin>>numberOfElements;
-    for(int i=0; i<numberOfElements; i++){
-        cout<<"Element at index "<<i<<" "; 
-        cin>>elements[i];
-    }
-    Algorithms m;
-    m.header();
-    //m.welcomeMessage();
-    // m.partition();
-    // m.binarySearch();
-    m.quickSort(elements,0,5);
+    // menu.numberOfElements;
+    // cout<<"Enter the number of elements in the Array to be processed >>>>>> ";
+    // cin>>menu.numberOfElements;
+    // alg.elements[menu.numberOfElements]; 
+    // for(int a=0; a<menu.numberOfElements; a++){
+    //     cout<<"Element at index "<<a<<": "; 
+    //     cin>>menu.elements[a];
+    // }
+
+    
     
 
     return 0;
