@@ -19,14 +19,15 @@ class Program{
             cout<<"\t\t\t\tBelow Are The Type Algorithms Available in This Program"<<endl;
             cout<<"\t\t\t\t1. Searching Algorithms"<<endl;
             cout<<"\t\t\t\t2. Sorting Algorithms"<<endl;
+            Sleep(1000);
             cout<<endl;
         }
             
            
         void searchingAlgorithm(){
             cout<<"Searching Algorithms"<<endl;
-            cout<<"1 Linear Search"<<endl;
-            cout<<"2 Binary Search"<<endl;
+            cout<<"1. Linear Search"<<endl;
+            cout<<"2. Binary Search"<<endl;
             cout<<"0. Go Back"<<endl;
         }
 
@@ -34,11 +35,10 @@ class Program{
             cout<<"Sorting Algorithms"<<endl;
             cout<<"1. Selection Sort"<<endl;
             cout<<"2. Insertion Sort"<<endl;
-            cout<<"3. Nearly Sorted"<<endl;
-            cout<<"4. Shell Sort"<<endl;
-            cout<<"5. Quick Sort"<<endl;
-            cout<<"6. Merge Sort"<<endl;
-            cout<<"7. Radix Sort"<<endl;
+            cout<<"3. Shell Sort"<<endl;
+            cout<<"4. Quick Sort"<<endl;
+            cout<<"5. Merge Sort"<<endl;
+            cout<<"6. Radix Sort"<<endl;
             cout<<"0. Back"<<endl;
         }
         
@@ -50,6 +50,15 @@ class Program{
                 cout<<"Element at index "<<i<<": "; cin>>elements[i];
             }
             cout<<endl;
+
+            string isSorted = "Array elements are sorted";
+            for(int i=1; i<numberOfElements; i++){
+                if(elements[i - 1] > elements[i]){
+                    isSorted = "Array elements are not sorted!!!";
+                    break;
+                }
+            }
+            cout<<isSorted<<endl;
         }
 
         void displayInput(){
@@ -74,12 +83,16 @@ class AlgorithmsForInt : protected Program{
         void linearSearch(){
             cout<<"Enter key for linear search>>>>";
             cin>>key;
-            for(int i=0; i<numberOfElements; i++){
+            int i;
+            for(i=0; i<numberOfElements; i++){
                 if(elements[i]==key){
                     cout<<"Found "<<key<<" at index "<<i<<endl;
                     break;
                 }
-            }cout<<key<<" was not found"<<endl;
+            }
+            if(i == numberOfElements){
+                cout<<key<<" was not found"<<endl;
+            }
         }
 
         // Bianry search algorithm
@@ -97,6 +110,7 @@ class AlgorithmsForInt : protected Program{
                 else{
                     ret = mid;
                 }
+
             }
 
             if(ret == -1){
@@ -139,11 +153,7 @@ class AlgorithmsForInt : protected Program{
             }
         }
 
-        //Nearly sorted
-        void nearlySorted(){
-            // codes goes here
-
-        }
+        
 
         //Shell sort
         void shellSort(){
@@ -157,7 +167,7 @@ class AlgorithmsForInt : protected Program{
             }
             elements[i] = temp;
             }
-    }
+        }
             
         }
 
@@ -253,59 +263,53 @@ class AlgorithmsForInt : protected Program{
 
         
         // Radix sort
-        int getMax(int elements[], int elementSize){
-            int max = elements[0];
-            for(int i = 0; i < elementSize; i++){
-                if(elements[i] > max){
-                    max = elements[i];
-                }
-            }
-            return max;
+        // A utility function to get maximum value in arr[]
+        int getMax(int arr[], int n){
+            int mx = arr[0];
+            for (int i = 1; i < n; i++)
+                if (arr[i] > mx)
+                    mx = arr[i];
+            return mx;
         }
 
-        void countSort(int elements[], int elementSize, int exp){
-            int output[elementSize];
-            int i, count[10] = {0};
+        // A function to do counting sort of arr[] according to
+        // the digit represented by exp.
+        void countSort(int arr[], int n, int exp){
+            int output[n]; // output array
+            int i, count[10] = { 0 };
 
-            // Store count of occurrences of count []
-            for(i=0; i<elementSize; i++){
-                count[(elements[i] / exp) % 10];
-            }
+            // Store count of occurrences in count[]
+            for (i = 0; i < n; i++)
+                count[(arr[i] / exp) % 10]++;
 
             // Change count[i] so that count[i] now contains actual
             // position of this digit in output[]
-            for(i = 0; i < 10; i++){
+            for (i = 1; i < 10; i++)
                 count[i] += count[i - 1];
-            }
 
             // Build the output array
-            for(i = elementSize -1; i >= 0; i--){
-                output[count[(elements[i] / exp) % 10] -1] = elements[i];
-                count[(elements[i] / exp) % 10]--;
+            for (i = n - 1; i >= 0; i--) {
+                output[count[(arr[i] / exp) % 10] - 1] = arr[i];
+                count[(arr[i] / exp) % 10]--;
             }
 
-            // Copy the output array into elements[], so that
-            // elements[] now contains sorted numbers according to
-            // current digits.
-            for(i = 0; i < elementSize; i++){
-                elements[i] = output[i];
-            }
+            // Copy the output array to arr[], so that arr[] now
+            // contains sorted numbers according to current digit
+            for (i = 0; i < n; i++)
+                arr[i] = output[i];
         }
 
-        void radixSort(int elements[], int elementSize){
+        // The main function to that sorts arr[] of size n using
+        // Radix Sort
+        void radixsort(int arr[], int n){
             // Find the maximum number to know number of digits
-            int m = getMax(elements, elementSize);
+            int m = getMax(arr, n);
 
-            // Do counting sort for every digit. Note that instead of
-            // passing digit number, exp is passed. exp is 10^i
-            // where i is the current digit number
-            for(int exp = 1; m / exp > 0; exp *= 10){
-                countSort(elements, elementSize, exp);
-            }
-
-            // display results to user
-            displayResult();
-            
+            // Do counting sort for every digit. Note that instead
+            // of passing digit number, exp is passed. exp is 10^i
+            // where i is current digit number
+            for (int exp = 1; m / exp > 0; exp *= 10)
+                countSort(arr, n, exp);
         }
 
 };
@@ -322,18 +326,18 @@ class Home: protected AlgorithmsForInt{
         string proceed, exit;
         do{
             cout<<"Do you want to proceed with Sorting or Searching Algorithm?"<<endl;
-            cout<<"Enter 0 for Sorting or 1 for Searching Algorithm >>>> ";
+            cout<<"Enter 1 for Searching or 2 for Sorting Algorithm >>>> ";
             cin>>option;
             cout<<endl<<endl;
 
             // checking user input validity
-            while(option != 0 && option != 1){
+            while(option < 1 || option > 2){
                 cout<<"Please enter a value between 0 and 1: ";
                 cin>>option;
             }
 
             switch(option){
-                case 0:
+                case 1:
                     do{
                         searchingAlgorithm();
                         cout<<endl;
@@ -341,16 +345,18 @@ class Home: protected AlgorithmsForInt{
                         cin>>choice;
                         cout<<endl;
 
-                        while(choice < 0 || choice > 2){
+                        while(choice < 1 || choice > 2){
                             cout<<"Please enter a value between 0 and 2: ";
                             cin>>choice;
                         }
                         switch(choice){
                             
                             case 1:
-                                while(proceed != "N"){
+                                proceed = "Y";
+                                while(proceed == "Y"){
                                 cout<<"Linear search algorithm"<<endl;
                                 takeInput();
+                                
                                 displayInput();
                                 linearSearch();
 
@@ -379,7 +385,7 @@ class Home: protected AlgorithmsForInt{
                     }while(choice != 0);
                     break;
 
-                case 1:
+                case 2:
                     do{
                         sortingAlgorithm();
                         cout<<endl;
@@ -423,22 +429,8 @@ class Home: protected AlgorithmsForInt{
                                 }
                                 break;
 
+
                             case 3:
-                                proceed = "Y";
-                                while(proceed == "Y"){
-                                    cout<<"Nearly sort algorithm"<<endl;
-                                    takeInput();
-                                    displayInput();
-                                    nearlySorted();
-                                    displayResult();
-
-                                    cout<<"Do you want to continue with Nearly Sort? (Y or N): ";
-                                    cin>>proceed;
-                                    cout<<endl;
-                                }
-                                break;
-
-                            case 4:
                                 proceed = "Y";
                                 while(proceed == "Y"){
                                     cout<<"Shell sort algorithm"<<endl;
@@ -453,7 +445,7 @@ class Home: protected AlgorithmsForInt{
                                 }
                                 break;
 
-                            case 5:
+                            case 4:
                                 proceed = "Y";
                                 while(proceed == "Y"){
                                     cout<<"Quick sort algorithm"<<endl;
@@ -473,7 +465,7 @@ class Home: protected AlgorithmsForInt{
                                 }
                                 break;
 
-                            case 6:
+                            case 5:
                                 proceed = "Y";
                                 while(proceed == "Y"){
                                     cout<<"Merge sort algorithm"<<endl;
@@ -492,13 +484,29 @@ class Home: protected AlgorithmsForInt{
                                     cout<<endl;
                                 }
                                 break;
+
+                            case 6:
+                                proceed = "Y";
+                                while(proceed == "Y"){
+                                    cout<<"Radix sort algorithm"<<endl;
+                                    takeInput();
+                                    displayInput();
+                                    radixsort(elements, numberOfElements);
+                                    displayResult();
+
+                                    cout<<"Do you want to continue with Radix Sort? (Y or N): ";
+                                    cin>>proceed;
+                                    cout<<endl;
+                                }
+                                break;
+                                                        
                         }
 
                     }while(choice != 0);
             }
 
 
-        }while(option == 0 || option == 1);
+        }while(option == 1 || option == 2);
     }
 };
 
